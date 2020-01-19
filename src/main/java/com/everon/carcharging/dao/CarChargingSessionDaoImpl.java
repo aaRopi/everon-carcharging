@@ -18,26 +18,20 @@ public class CarChargingSessionDaoImpl implements CarChargingSessionDao {
     LinkedHashSet<CarChargingSession> carChargingSessionSet = new LinkedHashSet<>();
 
     @Override
-    public CarChargingSession createCarChargingSession(String stationId) {
-
+    public LinkedHashSet<CarChargingSession> createCarChargingSession(String stationId) {
         carChargingSessionSet.add(new CarChargingSession(UUID.randomUUID(),
                 stationId, LocalDateTime.now(), null,
                 StatusEnum.IN_PROGRESS));
-
-        return carChargingSessionSet.stream().findFirst().get();
+        return carChargingSessionSet;
     }
 
     @Override
-    public CarChargingSession stopCarChargingSession(UUID uuid) {
+    public Optional<CarChargingSession> stopCarChargingSession(UUID uuid) {
         // find the object matching the Id
         Optional<CarChargingSession> sessionToBeUpdated = carChargingSessionSet.stream().filter(matchingSession -> {
-            if (matchingSession.getId().compareTo(uuid) == 0) {
-                return true;
-            } else return false;
+            return matchingSession.getId().compareTo(uuid) == 0;
         }).findAny();
-
-        sessionToBeUpdated.ifPresent(session -> session.setStatus(StatusEnum.FINISHED));
-        return sessionToBeUpdated.get();
+        return sessionToBeUpdated;
     }
 
     @Override

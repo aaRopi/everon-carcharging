@@ -5,6 +5,7 @@ import com.everon.carcharging.session.ChargingSessionSummary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Service
 public interface CarChargingSessionService {
 
-    CarChargingSession submitChargingsession(String stationId);
+    Optional<CarChargingSession> submitChargingsession(String stationId);
 
     CarChargingSession stopChargingsessionById(UUID uuid);
 

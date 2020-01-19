@@ -3,10 +3,12 @@ package com.everon.carcharging.service;
 import com.everon.carcharging.dao.CarChargingSessionDao;
 import com.everon.carcharging.session.CarChargingSession;
 import com.everon.carcharging.session.ChargingSessionSummary;
+import com.everon.carcharging.session.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -20,13 +22,20 @@ public class CarChargingSessionServiceImpl implements CarChargingSessionService 
     private CarChargingSessionDao carChargingSessionDao;
 
     @Override
-    public CarChargingSession submitChargingsession(String stationId) {
-        return carChargingSessionDao.createCarChargingSession(stationId);
+    public Optional<CarChargingSession> submitChargingsession(String stationId) {
+        if (stationId != null && !stationId.isEmpty()) {
+            return carChargingSessionDao.createCarChargingSession(stationId).stream().
+                    filter(matchingStationId -> matchingStationId.getStationId().equals(stationId)).findAny();
+        } else return Optional.empty();
     }
 
     @Override
     public CarChargingSession stopChargingsessionById(UUID uuid) {
-        return carChargingSessionDao.stopCarChargingSession(uuid);
+        if (uuid != null) {
+            Optional<CarChargingSession> sessionTobeUpdated = carChargingSessionDao.stopCarChargingSession(uuid);
+            sessionTobeUpdated.ifPresent(session -> session.setStatus(StatusEnum.FINISHED));
+            return sessionTobeUpdated.get();
+        } else return null;
     }
 
     @Override
