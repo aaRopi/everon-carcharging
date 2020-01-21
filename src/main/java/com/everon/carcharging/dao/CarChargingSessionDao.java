@@ -1,23 +1,40 @@
 package com.everon.carcharging.dao;
 
 import com.everon.carcharging.session.CarChargingSession;
-import com.everon.carcharging.session.ChargingSessionSummary;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Interface for the DAO Layer;
+ * Creating a DAO layer is optional for this
+ * specific use case but in order to make the implementation
+ * extensible for Actual DB related implementation, is a good practice
+ */
 public interface CarChargingSessionDao {
 
-     LinkedHashSet<CarChargingSession> createCarChargingSession(String stationId);
+    /**
+     * @param stationId
+     * @return
+     */
+    LinkedHashSet<CarChargingSession> createCarChargingSession(String stationId);
 
-     Optional<CarChargingSession> stopCarChargingSession(UUID uuid);
+    /**
+     * @param uuid
+     * @return
+     */
+    Optional<CarChargingSession> stopCarChargingSession(UUID uuid);
 
-     List<CarChargingSession> getAllChargingSessions();
+    /**
+     * @return
+     */
+    LinkedHashSet<CarChargingSession> getAllChargingSessions();
 
-     ChargingSessionSummary getChargingSessionSummary();
-
+    /**
+     * @return
+     */
+    LinkedHashSet<CarChargingSession> getChargingSessionSummary();
 
 
 }

@@ -1,12 +1,12 @@
 package com.everon.carcharging.session;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+/**
+ * Object to hold the stopcount, startcound
+ * & totalCount of all the CarChargingSessions
+ */
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChargingSessionSummary {

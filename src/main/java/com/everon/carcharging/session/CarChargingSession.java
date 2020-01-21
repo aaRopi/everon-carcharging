@@ -1,28 +1,27 @@
 package com.everon.carcharging.session;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.*;
 
+import javax.naming.Name;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Entity class that stored a car chargind ession
+ * Entity class that stored a car charging ession
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+public class CarChargingSession  {
 
-public class CarChargingSession {
    private UUID id;
    private String stationId;
    private LocalDateTime startedAt;
    private LocalDateTime stoppedAt;
-   StatusEnum status;
+   private StatusEnum status;
 
     @Override
     public boolean equals(Object o) {

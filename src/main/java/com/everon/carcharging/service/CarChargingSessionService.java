@@ -1,25 +1,41 @@
 package com.everon.carcharging.service;
 
+import com.everon.carcharging.exception.ResourceNotFoundException;
 import com.everon.carcharging.session.CarChargingSession;
+import com.everon.carcharging.session.CarChargingSessionList;
 import com.everon.carcharging.session.ChargingSessionSummary;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Interface for CarCahrging session service
+ * Interface for CarCharging session service
  */
 @Service
 public interface CarChargingSessionService {
+    /**
+     * @param stationId
+     * @return
+     * @throws Exception
+     */
+    Optional<CarChargingSession> submitChargingSession(String stationId) throws Exception;
 
-    Optional<CarChargingSession> submitChargingsession(String stationId);
+    /**
+     * @param uuid
+     * @return
+     * @throws ResourceNotFoundException
+     */
+    CarChargingSession stopChargingSessionById(UUID uuid) throws ResourceNotFoundException;
 
-    CarChargingSession stopChargingsessionById(UUID uuid);
-
+    /**
+     * @return
+     */
     ChargingSessionSummary getChargingSessionSummary();
 
-    List<CarChargingSession> getAllChargingSessions();
+    /**
+     * @return
+     */
+    CarChargingSessionList getAllChargingSessions();
 
 }
