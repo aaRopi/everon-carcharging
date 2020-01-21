@@ -1,4 +1,4 @@
-# carchargingmanagement project
+# Car Charging Management Project
 The following documentation is for the Java Interview Test for Everon
 
 ## Built With
