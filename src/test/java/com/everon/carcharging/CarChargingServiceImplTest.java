@@ -57,9 +57,9 @@ public class CarChargingServiceImplTest {
                 null, StatusEnum.FINISHED);
         actualCarChargingSessionSet.add(carChargingSession3);
         when(mockCarChargingSessionDao.getChargingSessionSummary()).thenReturn(actualCarChargingSessionSet);
-        Assert.assertEquals(1, (int)carChargingService.getChargingSessionSummary().getStartedCount());
-        Assert.assertEquals(2, (int)carChargingService.getChargingSessionSummary().getStoppedCount());
-        Assert.assertEquals(3, (int)carChargingService.getChargingSessionSummary().getTotalCount());
+        Assert.assertEquals(1, (int) carChargingService.getChargingSessionSummary().getStartedCount());
+        Assert.assertEquals(2, (int) carChargingService.getChargingSessionSummary().getStoppedCount());
+        Assert.assertEquals(3, (int) carChargingService.getChargingSessionSummary().getTotalCount());
 
     }
 
@@ -76,9 +76,19 @@ public class CarChargingServiceImplTest {
     @Test(expected = ResourceNotFoundException.class)
     public void testStopChargingSessionByIdWhenIdNotFound() throws ResourceNotFoundException {
         UUID uuid = UUID.randomUUID();
-        CarChargingSession carChargingSession = new CarChargingSession(uuid, "ABC-12345", LocalDateTime.now(),
-                null, StatusEnum.IN_PROGRESS);
-        when(mockCarChargingSessionDao.stopCarChargingSession(UUID.randomUUID())).thenThrow(ResourceNotFoundException.class);
         carChargingService.stopChargingSessionById(uuid);
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testSubmitChargingSessionWhenStationIdIsNull() {
+        String stationId = null;
+        carChargingService.submitChargingSession(stationId);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testSubmitChargingSessionWhenStationIdIsEmpty() {
+        String stationId = "";
+        carChargingService.submitChargingSession(stationId);
+    }
+
 }
