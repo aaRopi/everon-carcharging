@@ -70,6 +70,8 @@ public class CarChargingServiceImplTest {
                 null, StatusEnum.IN_PROGRESS);
         when(mockCarChargingSessionDao.stopCarChargingSession(uuid)).thenReturn(Optional.of(carChargingSession));
         Assert.assertEquals("ABC-12345", carChargingService.stopChargingSessionById(uuid).getStationId());
+        Assert.assertEquals("FINISHED", carChargingService.stopChargingSessionById(uuid).getStatus().toString());
+        Assert.assertNotNull(carChargingService.stopChargingSessionById(uuid).getStoppedAt());
 
     }
 
@@ -89,6 +91,17 @@ public class CarChargingServiceImplTest {
     public void testSubmitChargingSessionWhenStationIdIsEmpty() {
         String stationId = "";
         carChargingService.submitChargingSession(stationId);
+    }
+
+    @Test
+    public void testSubmitChargingSessionsWhenStationIdNotNullAndNotEmpty() {
+        String stationId = "ABC-12345";
+        LinkedHashSet<CarChargingSession> actualCarChargingSessionSet = new LinkedHashSet<>();
+        CarChargingSession carChargingSession = new CarChargingSession(UUID.randomUUID(), "ABC-12345", LocalDateTime.now(),
+                null, StatusEnum.IN_PROGRESS);
+        actualCarChargingSessionSet.add(carChargingSession);
+        when(mockCarChargingSessionDao.createCarChargingSession(stationId)).thenReturn(actualCarChargingSessionSet);
+        Assert.assertEquals(carChargingSession.getId(), carChargingService.submitChargingSession(stationId).get().getId());
     }
 
 }
