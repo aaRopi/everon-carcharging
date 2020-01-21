@@ -38,13 +38,13 @@ public class CarChargingSessionServiceImpl implements CarChargingSessionService 
     private CarChargingSessionDao carChargingSessionDao;
 
     @Override
-    public Optional<CarChargingSession> submitChargingSession(String stationId) throws Exception {
+    public Optional<CarChargingSession> submitChargingSession(String stationId) throws RuntimeException {
         if (stationId != null && !stationId.isEmpty()) {
             LOG.info("Creating Session with StationId : " + stationId);
             return carChargingSessionDao.createCarChargingSession(stationId).stream().
                     filter(matchingStationId ->
                             matchingStationId.getStationId().equals(stationId)).findAny();
-        } else throw new Exception("Invalid Input");
+        } else throw new RuntimeException("Invalid Request Body");
     }
 
     @Override
@@ -62,7 +62,6 @@ public class CarChargingSessionServiceImpl implements CarChargingSessionService 
     @Override
     public ChargingSessionSummary getChargingSessionSummary() {
         LinkedHashSet<CarChargingSession> carChargingSessionSet = carChargingSessionDao.getChargingSessionSummary();
-
         long startedCount = carChargingSessionSet.stream().
                 filter(startedSessions ->
                         startedSessions.getStatus().equals(StatusEnum.IN_PROGRESS)).count();

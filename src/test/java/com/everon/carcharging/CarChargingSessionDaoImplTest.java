@@ -17,8 +17,6 @@ import java.util.UUID;
 @RunWith(MockitoJUnitRunner.class)
 public class CarChargingSessionDaoImplTest {
 
-    private final static int NUM_THREADS = 10;
-    private final static int NUM_ITERATIONS = 1000;
 
     @Mock
     LinkedHashSet<CarChargingSession> carChargingSessionSet;
